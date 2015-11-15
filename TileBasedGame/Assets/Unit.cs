@@ -220,10 +220,13 @@ public class Unit : MonoBehaviour {
         curMP = maxMP;
         explosion = (GameObject)Resources.Load("SpellVisuals/Explosion");
 
-        AddSkill(SkillFactory.GetBloodDonor());
-        AddSkill(SkillFactory.GetSnipe());
-        AddSkill(SkillFactory.GetSlam());
-		AddSkill(SkillFactory.GetRepair());
+		AddSkill (SkillFactory.GetWeakenOffense ());
+		AddSkill (SkillFactory.GetWeakenDefense());
+		AddSkill(SkillFactory.GetBloodDonor());
+		AddSkill (SkillFactory.GetAoEHeal ());
+        //AddSkill(SkillFactory.GetSnipe());
+        //AddSkill(SkillFactory.GetSlam());
+		//AddSkill(SkillFactory.GetRepair());
 
     }
 

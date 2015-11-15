@@ -92,4 +92,31 @@ public class EffectFactory{
 		}
 		return damageMultiplierEffect;
 	}
+
+	private static Effect weakenOffenseEffect;
+	public static Effect GetWeakenOffenseEffect() {
+		if (weakenOffenseEffect == null) {
+			weakenOffenseEffect = new Effect();
+			weakenOffenseEffect.damageBonus = -2;
+		}
+		return weakenOffenseEffect;
+	}
+
+	private static Effect weakenDefenseEffect;
+	public static Effect GetWeakenDefenseEffect() {
+		if (weakenDefenseEffect == null) {
+			weakenDefenseEffect = new Effect();
+			weakenDefenseEffect.armorBonus = -1;
+		}
+		return weakenDefenseEffect;
+	}
+
+	private static Effect tauntEffect;
+	public static Effect GetTauntEffect() {
+		if (tauntEffect == null) {
+			tauntEffect = new Effect();
+			//TODO: finish dis shiiiit
+		}
+		return tauntEffect;
+	}
 }
