@@ -8,6 +8,8 @@ public class Unit : MonoBehaviour {
 
     private static long idCtr = 0;
 
+    public bool aiControlled = false;
+
     [HideInInspector]
     public float nextTurnTime = 0;
     [HideInInspector]
@@ -25,6 +27,28 @@ public class Unit : MonoBehaviour {
     public bool TalentSelected(string str)
     {
         return talentTags.Contains(str);
+    }
+
+    private Dictionary<string, int> hardTags = new Dictionary<string, int>();
+    public bool HasHardTag(string tag)
+    {
+        if (!hardTags.ContainsKey(tag))
+            return false;
+        return hardTags[tag] > 0;
+    }
+    public void addHardTag(string tag)
+    {
+        if (!hardTags.ContainsKey(tag))
+            hardTags[tag] = 1;
+        else
+            ++hardTags[tag];
+    }
+    public void removeHardTag(string tag)
+    {
+        if (!hardTags.ContainsKey(tag))
+            return;
+        else if(hardTags[tag] > 0)
+            --hardTags[tag];
     }
 
 
@@ -146,7 +170,7 @@ public class Unit : MonoBehaviour {
             {
                 total += e.effect.armorBonus;
             }
-            return total;
+            return Mathf.Min(0.7f,total);
         }
     }
 
@@ -220,12 +244,12 @@ public class Unit : MonoBehaviour {
         curMP = maxMP;
         explosion = (GameObject)Resources.Load("SpellVisuals/Explosion");
 
-		AddSkill (SkillFactory.GetWeakenOffense ());
-		AddSkill (SkillFactory.GetWeakenDefense());
+		//AddSkill (SkillFactory.GetWeakenOffense ());
+		//AddSkill (SkillFactory.GetWeakenDefense());
 		AddSkill(SkillFactory.GetBloodDonor());
-		AddSkill (SkillFactory.GetAoEHeal ());
-        //AddSkill(SkillFactory.GetSnipe());
-        //AddSkill(SkillFactory.GetSlam());
+		//AddSkill (SkillFactory.GetAoEHeal ());
+        AddSkill(SkillFactory.GetSnipe());
+        AddSkill(SkillFactory.GetSlam());
 		//AddSkill(SkillFactory.GetRepair());
 
     }
@@ -255,9 +279,74 @@ public class Unit : MonoBehaviour {
         foreach (EffectContainer e in effectContainers)
             e.effect.onTurnBegin(this);
 
+       // if (aiControlled)
+       //     calculateMove();
+
         //AI controlled units will use a coroutine to decide their moves
 
     }
+
+    //AI ONLY
+    public void calculateMovement()
+    {
+        Unit enemy = GameManager.instance.GetNearestEnemy(this);
+        if (enemy == null)
+        {
+            GameManager.instance.ProcessCommand(() => { });
+            return;
+        }
+        List<Tile> path = GameManager.instance.FindPath(this.tile, enemy.tile);
+        if(path == null)
+        {
+            hasMoved = true;
+            return;
+        }
+
+
+        int i = Mathf.Min(MoveRange, path.Count - 1);
+        while (i > 0 && path[i].unit != this && path[i].unit != null)
+            --i;
+        Tile t = path[i];
+        GameManager.instance.ProcessMoveCommand(t);
+    }
+    public void calculateAttack()
+    {
+        Unit enemy = GameManager.instance.GetNearestEnemy(this);
+        if(enemy == null)
+        {
+            GameManager.instance.ProcessCommand(() => { });
+            return;
+        }
+
+        List<SkillContainer> castableMoves = new List<SkillContainer>();
+        foreach(SkillContainer sc in skillContainers)
+            if (sc.IsCastable && sc.skill.targetType == Skill.TargetType.ENEMY && sc.skill.IsInRange(this, enemy.tile))
+                castableMoves.Add(sc);
+
+        if(castableMoves.Count <= 0)
+        {
+            GameManager.instance.ProcessCommand(() => { });
+            return;
+        }
+
+        SkillContainer move = castableMoves[Random.Range(0, castableMoves.Count)];
+        GameManager.instance.ProcessCommand(() => {
+            move.skill.Perform(this, enemy.tile);
+            move.cooldown = move.skill.cooldown;
+        });
+
+
+        /*
+        if (SkillFactory.GetSnipe().IsInRange(this, enemy.tile))
+            GameManager.instance.ProcessCommand(() =>
+            {
+                SkillFactory.GetSnipe().Perform(this, enemy.tile);
+            });
+        else
+            GameManager.instance.ProcessCommand(() => { });
+        */
+    }
+
 
 
     [HideInInspector]
@@ -297,6 +386,7 @@ public class Unit : MonoBehaviour {
     }
     public void StopAimingSkill()
     {
+        GameManager.instance.cursor.transform.localScale = Vector3.one;
         if (!IsAimingSkill)
             return;
         aimingSkill = null;
@@ -309,10 +399,13 @@ public class Unit : MonoBehaviour {
 
     void CommitSkillTarget()
     {
-        if(!IsAimingSkill)
+        GameManager.instance.cursor.transform.localScale = Vector3.one;
+        if (!IsAimingSkill)
             return;
         if (GameManager.instance.selected == null ||
             !aimingSkill.skill.IsInRange(this, GameManager.instance.selected))
+            return;
+        if (aimingSkill.skill.aoe <= 0 && !aimingSkill.skill.ValidTile(this, GameManager.instance.selected))
             return;
         GameManager.instance.ProcessCommand(() =>
         {
@@ -336,7 +429,8 @@ public class Unit : MonoBehaviour {
         if (!s.IsCastable)
             return;
         aimingSkill = s;
-        GameManager.instance.TilesInRange(tile, s.skill.range, null); 
+        GameManager.instance.TilesInRangeSkill(tile, s.skill.range,this, s.skill);
+        GameManager.instance.cursor.transform.localScale = new Vector3((1 + s.skill.aoe), 1, (1 + s.skill.aoe));
     }
 
 
@@ -348,6 +442,16 @@ public class Unit : MonoBehaviour {
             ik.StopLooking();
             return;
         }
+
+        if (aiControlled)
+        {
+            if (!hasMoved)
+                calculateMovement();
+            else
+                calculateAttack();
+            return;
+        }
+
 
         if (GameManager.instance.selected)
             ik.LookAt(GameManager.instance.selected.gameObject);
@@ -376,15 +480,15 @@ public class Unit : MonoBehaviour {
         {
             SelectSkill(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SelectSkill(3);
+            SelectSkill(2);
         }
         else if(Input.GetKeyDown(KeyCode.Escape) && IsAimingSkill)
         {
             StopAimingSkill();
         }
-        else if(Input.GetKeyDown(KeyCode.P)) //can pass turn
+        else if(!IsAimingSkill && Input.GetKeyDown(KeyCode.P)) //can pass turn
         {
             GameManager.instance.ProcessCommand(() => { });
         }

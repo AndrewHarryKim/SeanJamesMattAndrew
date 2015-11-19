@@ -1,13 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Unit.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StageSelect\Stage assets\LevelMenuScript.cs">
     <Files>
-      <File FileName="Assets\Skills\SkillFactory.cs" Line="62" Column="6" />
-      <File FileName="Assets\Skills\Skill.cs" Line="17" Column="57" />
-      <File FileName="Assets\Effects\Effect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Effects\EffectContainer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Effects\EffectFactory.cs" Line="1" Column="1" />
-      <File FileName="Assets\Unit.cs" Line="218" Column="3" />
+      <File FileName="Assets\StageSelect\Stage assets\LevelBtns.cs" Line="7" Column="1" />
+      <File FileName="Assets\Main Menu Assets\MainMenuScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\StageSelect\Stage assets\LevelMenuScript.cs" Line="70" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

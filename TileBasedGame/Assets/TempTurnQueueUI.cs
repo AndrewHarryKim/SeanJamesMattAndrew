@@ -39,7 +39,7 @@ public class TempTurnQueueUI : MonoBehaviour {
             bm.desiredPos = -Vector3.up*100 + Vector3.right * 100 * (i-lrSize);//Vector3.right*600 + Vector3.up*800 + Vector3.right * 100 * i;
             bm.desiredSize = i == lrSize ? 1 : 0.6f;
             bm.desiredAlpha = 1f - (float)Mathf.Abs(lrSize - i) / (lrSize);
-            bm.transform.parent = transform;
+            bm.transform.SetParent(transform);
             buttons.Add(bm);
         }
     }
@@ -55,7 +55,7 @@ public class TempTurnQueueUI : MonoBehaviour {
         ButtonMorpher bm = MakeButton();
         int index = (lrSize) % units.Count;
         bm.GetComponent<Button>().image.sprite = units[index].icon;
-        bm.transform.parent = transform;
+        bm.transform.SetParent(transform);
         buttons.Add(bm);
         for(int i = 0; i < buttons.Count; ++i)
         {

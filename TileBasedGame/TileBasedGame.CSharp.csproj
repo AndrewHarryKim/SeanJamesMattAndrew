@@ -89,6 +89,7 @@
     <Compile Include="Assets\Effects\EffectContainer.cs" />
     <Compile Include="Assets\Effects\EffectFactory.cs" />
     <Compile Include="Assets\GameManager.cs" />
+    <Compile Include="Assets\GlobalManager.cs" />
     <Compile Include="Assets\Main Menu Assets\CharacterSelectMenu.cs" />
     <Compile Include="Assets\Main Menu Assets\MainMenuScript.cs" />
     <Compile Include="Assets\Main Menu Assets\RotateSkybox.cs" />

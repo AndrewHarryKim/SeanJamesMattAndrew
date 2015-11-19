@@ -52,7 +52,7 @@ public partial class GameManager : MonoBehaviour {
                 GameObject go = (GameObject)Instantiate(tile, row + Vector3.right * j, Quaternion.identity);
                 if(Random.value <= 0.3f)
                 {
-                    go.GetComponent<MeshRenderer>().material = redmat;
+                    go.GetComponent<MeshRenderer>().material = walkSelectMat;
                 }
                 //Debug.Log("I: " + i + " J: " + j);
                 Tile t = go.GetComponent<Tile>();
@@ -85,7 +85,7 @@ public partial class GameManager : MonoBehaviour {
                 GameObject go = (GameObject)Instantiate(tile, row + Vector3.right * j, Quaternion.identity);
                 if (Random.value <= 0.3f)
                 {
-                    go.GetComponent<MeshRenderer>().material = redmat;
+                    go.GetComponent<MeshRenderer>().material = walkSelectMat;
                 }
                 //Debug.Log("I: " + i + " J: " + j);
                 Tile t = go.GetComponent<Tile>();

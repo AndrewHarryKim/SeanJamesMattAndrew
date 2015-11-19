@@ -78,6 +78,34 @@ public class Skill
         return list;
     }
 
+    public enum TargetTileRestriction { ANY, UNIT, EMPTY};
+    public TargetTileRestriction tileRestriction = TargetTileRestriction.UNIT;
+    public bool ValidTile(Unit user, Tile tile)
+    {
+        if (tileRestriction == TargetTileRestriction.ANY)
+            return true;
+        if (tileRestriction == TargetTileRestriction.UNIT)
+        {
+            if (targetType == TargetType.ENEMY)
+            {
+                if (tile.unit != null && user.IsEnemy(tile.unit))
+                    return true;
+            }
+            else if (targetType == TargetType.ALLY)
+            {
+                if (tile.unit != null && user.IsAlly(tile.unit))
+                    return true;
+            }
+            else
+            { 
+                if (tile.unit != null && user == tile.unit)
+                    return true;
+            }
+            return false;
+        }
+        return tile.unit == null;
+    }
+
 	public bool CanCast(Unit user){
 		return user.curMP >= manaCost(user);
 	}
