@@ -52,7 +52,7 @@ public partial class GameManager : MonoBehaviour {
                 GameObject go = (GameObject)Instantiate(tile, row + Vector3.right * j, Quaternion.identity);
                 if(Random.value <= 0.3f)
                 {
-                    go.GetComponent<MeshRenderer>().material = redmat;
+                    go.GetComponent<MeshRenderer>().material = walkSelectMat;
                 }
                 //Debug.Log("I: " + i + " J: " + j);
                 Tile t = go.GetComponent<Tile>();
@@ -85,7 +85,7 @@ public partial class GameManager : MonoBehaviour {
                 GameObject go = (GameObject)Instantiate(tile, row + Vector3.right * j, Quaternion.identity);
                 if (Random.value <= 0.3f)
                 {
-                    go.GetComponent<MeshRenderer>().material = redmat;
+                    go.GetComponent<MeshRenderer>().material = walkSelectMat;
                 }
                 //Debug.Log("I: " + i + " J: " + j);
                 Tile t = go.GetComponent<Tile>();
@@ -112,6 +112,8 @@ public partial class GameManager : MonoBehaviour {
             ++i;
         }
 
+       
+
         /*
         List<Tile> list = GameManager.instance.FindPath(GameManager.instance.tiles[4][4], GameManager.instance.tiles[7][18]);
         if(list != null)
@@ -124,7 +126,6 @@ public partial class GameManager : MonoBehaviour {
             }
         }
         */
-        
     }
 
     int tileLayer = 1 << 8;
@@ -140,7 +141,10 @@ public partial class GameManager : MonoBehaviour {
             GameManager.instance.selected = hit.collider.gameObject.GetComponent<Tile>();
         }
         else
+        {
             cursor.SetActive(false);
+            GameManager.instance.selected = null;
+        }
 	}
 
 }

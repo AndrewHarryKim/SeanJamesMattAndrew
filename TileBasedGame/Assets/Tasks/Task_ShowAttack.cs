@@ -34,7 +34,7 @@ public class Task_ShowAttack : Task
 
     public override void OnExit()
     {
-        target.TakeDamage(3);
+        target.TakeDamage(3,user);
     }
 
 

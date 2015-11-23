@@ -7,16 +7,19 @@ public class MainMenuScript : MonoBehaviour {
 	enum Menu{
 		main,
 		characterSelect,
-		options
+		options,
+		talentSelect
 	}
 
 
 	public CanvasGroup mainMenu;
 	public CanvasGroup optionsMenu;
+	public CanvasGroup talentsMenu;
 	public Button optionsButton;
 	public CanvasGroup quitMenu;
 	public Button quitButton;
 	public Button startButton;
+	public Button selectCharacter;
 	public CanvasGroup charSelect;
 	public Camera UICamera;
 	public Button beginGameButton;
@@ -30,9 +33,13 @@ public class MainMenuScript : MonoBehaviour {
 		optionsMenu = optionsMenu.GetComponent<CanvasGroup> ();
 		quitMenu = quitMenu.GetComponent<CanvasGroup> ();
 		charSelect = charSelect.GetComponent<CanvasGroup> ();
+		talentsMenu = talentsMenu.GetComponent<CanvasGroup> ();
+
 		startButton = startButton.GetComponent<Button> ();
 		optionsButton = optionsButton.GetComponent<Button> ();
 		quitButton = quitButton.GetComponent<Button> ();
+		selectCharacter = selectCharacter.GetComponent<Button> ();
+
 		UICamera = UICamera.GetComponent<Camera> ();
 		beginGameButton = beginGameButton.GetComponent<Button> ();
 
@@ -53,6 +60,13 @@ public class MainMenuScript : MonoBehaviour {
 
 	}
 
+	public void SelectCharacterPress(){
+
+		menuPosition = Menu.talentSelect;
+	
+	}
+
+
 	public void ReturnToMainMenu() {
 	
 		mainMenu.alpha = 1;
@@ -64,6 +78,12 @@ public class MainMenuScript : MonoBehaviour {
 		menuPosition = Menu.main;
 	}
 
+	public void ReturnToCharacterSelect(){
+	
+	
+		menuPosition = Menu.characterSelect;
+	
+	}
 
 	public void StartGame () {
 	
@@ -120,38 +140,31 @@ public class MainMenuScript : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		Vector3 relativePos;
 
-		if (menuPosition == Menu.main) {
-			Vector3 relativePos = (mainMenu.transform.position - UICamera.transform.position);
-			Quaternion rotation = Quaternion.LookRotation(relativePos);
-			
-			Quaternion current = UICamera.transform.localRotation;
-			
-			UICamera.transform.rotation = Quaternion.Slerp(current, rotation, Time.deltaTime * menuTransitionSpeed);
-
-
+		switch (menuPosition) {
+		case Menu.main:
+			relativePos = (mainMenu.transform.position - UICamera.transform.position);
+			break;
+		case Menu.characterSelect:
+			relativePos = (charSelect.transform.position - UICamera.transform.position);
+			break;
+		case Menu.options:
+			relativePos = (optionsMenu.transform.position - UICamera.transform.position);
+			break;
+		case Menu.talentSelect:
+			relativePos = (talentsMenu.transform.position - UICamera.transform.position);
+			break;
+		default:
+			relativePos = (mainMenu.transform.position - UICamera.transform.position);
+			break;
 		}
 
-		if (menuPosition == Menu.characterSelect) {
-			Vector3 relativePos = (charSelect.transform.position - UICamera.transform.position);
-			Quaternion rotation = Quaternion.LookRotation(relativePos);
-
-			Quaternion current = UICamera.transform.localRotation;
-			
-			UICamera.transform.rotation = Quaternion.Slerp(current, rotation, Time.deltaTime * menuTransitionSpeed);
-		}
-
-		if (menuPosition == Menu.options) {
-			Vector3 relativePos = (optionsMenu.transform.position - UICamera.transform.position);
-			Quaternion rotation = Quaternion.LookRotation(relativePos);
-			
-			Quaternion current = UICamera.transform.localRotation;
-			
-			UICamera.transform.rotation = Quaternion.Slerp(current, rotation, Time.deltaTime * menuTransitionSpeed);		
+		Quaternion rotation = Quaternion.LookRotation(relativePos);
 		
+		Quaternion current = UICamera.transform.localRotation;
 		
-		}
-
+		UICamera.transform.rotation = Quaternion.Slerp(current, rotation, Time.deltaTime * menuTransitionSpeed);
 
 
 	}
