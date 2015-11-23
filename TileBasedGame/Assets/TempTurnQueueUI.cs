@@ -65,6 +65,27 @@ public class TempTurnQueueUI : MonoBehaviour {
         }
     }
 
+    public void ChangeFuture(List<Unit> units)
+    {
+        for(int i = lrSize; i < buttons.Count;)
+        {
+            Destroy(buttons[i].gameObject);
+            buttons.RemoveAt(i);
+        }
+        for(int i = 0; i < lrSize+1; ++i)
+        {
+            ButtonMorpher bm = MakeButton();
+            int index = i % units.Count;
+            bm.GetComponent<Button>().image.sprite = units[index].icon;
+            bm.desiredPos = -Vector3.up * 100 + Vector3.right * 100 * (i);//Vector3.right*600 + Vector3.up*800 + Vector3.right * 100 * i;
+            bm.desiredSize = i == 0 ? 1 : 0.6f;
+            bm.desiredAlpha = 1f;
+            //bm.desiredAlpha = 1f - (float)Mathf.Abs(i) / (lrSize);
+            bm.transform.SetParent(transform);
+            buttons.Add(bm);
+        }
+    }
+
     public ButtonMorpher MakeButton()
     {
         return ((GameObject)Instantiate(buttonPrefab,transform.up*800+transform.right*2000,Quaternion.identity)).GetComponent<ButtonMorpher>();

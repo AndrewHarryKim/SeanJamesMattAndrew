@@ -26,7 +26,11 @@ public partial class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        foreach (ClassFactory cf in GlobalManager.instance.PartyFactories)
+        {
+            Unit u = cf.Generate();
+            //unitShell.AddComponent<>
+        }
     }
 
     [HideInInspector]
@@ -66,6 +70,7 @@ public partial class GameManager : MonoBehaviour {
             activeUnit.CalculateReachableTiles();
             SelectionParticle.GetComponent<ParticleSystem>().enableEmission = true;
             SelectionParticle.transform.position = activeUnit.transform.position;
+            SelectionParticle.transform.parent = activeUnit.transform;
             activeUnit.RequestCommand();
         }
     }

@@ -426,6 +426,42 @@ public class SkillFactory
 		return repair;
 	}
 
+    private static Skill makeSentry = null;
+    public static Skill GetMakeSentry()
+    {
+
+        if(makeSentry == null)
+        {
+            makeSentry = new Skill();
+            makeSentry.name = "Sentry";
+            makeSentry.manaCost = user=>3;
+            makeSentry.targetType = Skill.TargetType.NONE;
+            makeSentry.tileRestriction = Skill.TargetTileRestriction.EMPTY;
+            makeSentry.cooldown = 5;
+            makeSentry.range = 2;
+            makeSentry.OnTilePostEffects += (user, tile, args) =>
+            {
+                GameObject go = (GameObject)GameObject.Instantiate((GameObject)Resources.Load("AssassinModel"), tile.transform.position,user.transform.rotation);
+                Unit u = go.AddComponent<Unit>();
+                u.dontPlace = true;
+                tile.SetUnit(u);
+                u.faction = user.faction;
+                u.aiControlled = true;
+                u.baseMoveRange = 0;
+                u.maxMP = 10;
+                u.maxHP = 10;
+            };
+            makeSentry.GenerateTasks = (user, tile, args) =>
+            {
+                GameManager.instance.tasks.Add(new Task_Trigger_Animation(user, "Punch"));
+                GameManager.instance.tasks.Add(new Task_Wait(0.3f));
+                GameManager.instance.tasks.Add(new Task_Fire_Projectile(user.transform.position + Vector3.up, tile.transform.position + Vector3.up, (GameObject)Resources.Load("SpellVisuals/BulletCube")));
+                makeSentry.EnqueueExecuteTask(user, tile, args);
+            };
+        }
+        return makeSentry;
+    }
+
 
 	
 	

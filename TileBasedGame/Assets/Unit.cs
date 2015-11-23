@@ -218,12 +218,16 @@ public class Unit : MonoBehaviour {
             _idNum = idCtr++;
 	}
 
+    [HideInInspector]
+    public bool dontPlace = false;
+
     AnimatorIKProxie ik;
     bool initialized = false;
     void Start()
     {
         initialized = true;
         GameManager.instance.units.Add(this);
+        /*
         if (tile == null)
         {
             int i = 0;
@@ -233,6 +237,35 @@ public class Unit : MonoBehaviour {
             transform.position = tile.TopPosition;
             //reachableTiles = GameManager.instance.TilesInRange(tile, MoveRange);
         }
+        */
+
+        if (!dontPlace) {
+            int startI = faction == 0 ? 0 : GameManager.instance.height - 1;
+            int endI = GameManager.instance.height - 1 - startI;
+            int dirI = faction == 0 ? 1 : -1;
+
+            for (int i = startI; i != endI; i += dirI)
+            {
+                for (int j = 0; j < GameManager.instance.width; ++j)
+                {
+                    Tile t = GameManager.instance.tiles[j][i];
+                    if (t != null && t.unit == null)
+                    {
+                        t.SetUnit(this);
+                        transform.position = tile.TopPosition;
+                        break;
+                    }
+                }
+                if (this.tile != null)
+                    break;
+            }
+        }
+        else
+        {
+            GameManager.instance.tempTurnQueueBar.ChangeFuture(GameManager.instance.units);
+        }
+
+
         if (anim == null)
             if (transform.childCount > 0)
             {
@@ -244,14 +277,16 @@ public class Unit : MonoBehaviour {
         curMP = maxMP;
         explosion = (GameObject)Resources.Load("SpellVisuals/Explosion");
 
-		//AddSkill (SkillFactory.GetWeakenOffense ());
-		//AddSkill (SkillFactory.GetWeakenDefense());
-		AddSkill(SkillFactory.GetBloodDonor());
-		//AddSkill (SkillFactory.GetAoEHeal ());
-        AddSkill(SkillFactory.GetSnipe());
-        AddSkill(SkillFactory.GetSlam());
-		//AddSkill(SkillFactory.GetRepair());
-
+        if (faction != 0)
+        {
+            //AddSkill (SkillFactory.GetWeakenOffense ());
+            //AddSkill (SkillFactory.GetWeakenDefense());
+            AddSkill(SkillFactory.GetBloodDonor());
+            //AddSkill (SkillFactory.GetAoEHeal ());
+            AddSkill(SkillFactory.GetSnipe());
+            AddSkill(SkillFactory.GetSlam());
+            //AddSkill(SkillFactory.GetRepair());
+        }
     }
 
     GameObject explosion;
@@ -404,9 +439,14 @@ public class Unit : MonoBehaviour {
             return;
         if (GameManager.instance.selected == null ||
             !aimingSkill.skill.IsInRange(this, GameManager.instance.selected))
+        {
+            GameManager.instance.TilesInRangeSkill(tile, aimingSkill.skill.range, this, aimingSkill.skill);
             return;
-        if (aimingSkill.skill.aoe <= 0 && !aimingSkill.skill.ValidTile(this, GameManager.instance.selected))
+        }
+        if (aimingSkill.skill.aoe <= 0 && !aimingSkill.skill.ValidTile(this, GameManager.instance.selected)) {
+            GameManager.instance.TilesInRangeSkill(tile, aimingSkill.skill.range, this, aimingSkill.skill);
             return;
+        }
         GameManager.instance.ProcessCommand(() =>
         {
             aimingSkill.skill.Perform(this, GameManager.instance.selected);

@@ -22,7 +22,7 @@ public class Skill
     public delegate TargetType TargetTypeDelegate(Unit user);
     public delegate DamageType DamageTypeDelegate(Unit user);
 
-	public delegate float CostDelegate(Unit user);
+    public delegate float CostDelegate(Unit user);
     public CostDelegate manaCost = (user) => 0;
 
     public int cooldown;
@@ -37,8 +37,11 @@ public class Skill
     public delegate void SkillEffectDelegate(Unit user, Unit target, object[] args);
     public SkillEffectDelegate OnTarget;
 
-	public delegate void TaskGenDelegate(Unit user, Tile epicenter, object[] args);
-	public TaskGenDelegate GenerateTasks;
+    public delegate void TaskGenDelegate(Unit user, Tile epicenter, object[] args);
+    public TaskGenDelegate GenerateTasks;
+
+    public delegate void EpicenterDelegate(Unit user, Tile epicenter, object[] args);
+    public EpicenterDelegate OnTilePostEffects = (user, epicenter, args) => {};
 
     public void DefaultOnTarget(Unit user, Unit target)
     {
@@ -57,7 +60,7 @@ public class Skill
     public List<Unit> gatherTargets(Unit user, Tile t, TargetType tt)//gather targets from center of tile extending out aoe tiles. The targettype affects it.
     {
         List<Unit> list = new List<Unit>();
-        foreach (Tile tile in GameManager.instance.TilesInRange(t, aoe, null))
+        foreach (Tile tile in GameManager.instance.TilesInRangeSkill(t, aoe, user,this))
         {
             if(tt == TargetType.ENEMY)
             {
@@ -126,6 +129,7 @@ public class Skill
         {
             OnTarget(user, target, args);
         }
+        OnTilePostEffects(user,t,args);
     }
 
 	public void Perform(Unit user, Tile t){
@@ -155,7 +159,7 @@ public class Skill
 
     public bool IsInRange(Unit user, Tile t)
     {
-        return GameManager.instance.TilesInRange(user.tile, range, null).Contains(t);
+        return GameManager.instance.TilesInRangeSkill(user.tile, range, user,this).Contains(t);
     }
 
 

@@ -112,6 +112,8 @@ public partial class GameManager : MonoBehaviour {
             ++i;
         }
 
+       
+
         /*
         List<Tile> list = GameManager.instance.FindPath(GameManager.instance.tiles[4][4], GameManager.instance.tiles[7][18]);
         if(list != null)
@@ -124,7 +126,6 @@ public partial class GameManager : MonoBehaviour {
             }
         }
         */
-        
     }
 
     int tileLayer = 1 << 8;

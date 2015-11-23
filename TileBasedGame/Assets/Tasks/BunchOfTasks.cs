@@ -168,3 +168,35 @@ public class Task_Execute_Skill : Task
 	}
 
 }
+
+public class Task_ShowParticleAnimation : Task
+{
+    private Vector3 position;
+    private Transform transPos = null;
+    private GameObject prefab;
+    private float destroyTime;
+
+    public Task_ShowParticleAnimation(GameObject effect, Vector3 pos, float time)
+    {
+        position = pos;
+        prefab = effect;
+        destroyTime = time;
+    }
+
+    public Task_ShowParticleAnimation(GameObject effect, Transform pos, float time)
+    {
+        transPos = pos;
+        prefab = effect;
+        destroyTime = time;
+    }
+
+    public override bool OnUpdate()
+    {
+        if (transPos != null)
+            position = transPos.position;
+        GameObject go = (GameObject)GameObject.Instantiate(prefab, position, Quaternion.identity);
+        GameObject.Destroy(go, destroyTime);
+        return true;
+    }
+
+}

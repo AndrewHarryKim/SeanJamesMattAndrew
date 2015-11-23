@@ -1,11 +1,11 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{BC97C3BA-E434-C68C-0C19-8B1113218624}") = "TileBasedGame", "Assembly-CSharp-firstpass.csproj", "{DBF1739E-A956-9927-2BAA-7889E9B0A8B8}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileBasedGame.CSharp.Plugins", "TileBasedGame.CSharp.Plugins.csproj", "{2BE10425-42CC-53E3-D169-B607E8096D2F}"
 EndProject
-Project("{BC97C3BA-E434-C68C-0C19-8B1113218624}") = "TileBasedGame", "Assembly-CSharp.csproj", "{90512E7F-FA41-A97A-4641-64632E94A60E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileBasedGame.CSharp", "TileBasedGame.CSharp.csproj", "{DFEE263C-56C7-E0E5-D7F7-47FF06B85927}"
 EndProject
-Project("{BC97C3BA-E434-C68C-0C19-8B1113218624}") = "TileBasedGame", "Assembly-CSharp-Editor.csproj", "{DABE5CC7-F57E-773E-F154-99C9EB21F25D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileBasedGame.CSharp.Editor", "TileBasedGame.CSharp.Editor.csproj", "{B48506F3-434C-E655-3A93-B28DBD91C34E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,40 +13,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DBF1739E-A956-9927-2BAA-7889E9B0A8B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBF1739E-A956-9927-2BAA-7889E9B0A8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBF1739E-A956-9927-2BAA-7889E9B0A8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBF1739E-A956-9927-2BAA-7889E9B0A8B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90512E7F-FA41-A97A-4641-64632E94A60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90512E7F-FA41-A97A-4641-64632E94A60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90512E7F-FA41-A97A-4641-64632E94A60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90512E7F-FA41-A97A-4641-64632E94A60E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DABE5CC7-F57E-773E-F154-99C9EB21F25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DABE5CC7-F57E-773E-F154-99C9EB21F25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DABE5CC7-F57E-773E-F154-99C9EB21F25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DABE5CC7-F57E-773E-F154-99C9EB21F25D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BE10425-42CC-53E3-D169-B607E8096D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE10425-42CC-53E3-D169-B607E8096D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE10425-42CC-53E3-D169-B607E8096D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE10425-42CC-53E3-D169-B607E8096D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFEE263C-56C7-E0E5-D7F7-47FF06B85927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFEE263C-56C7-E0E5-D7F7-47FF06B85927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFEE263C-56C7-E0E5-D7F7-47FF06B85927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFEE263C-56C7-E0E5-D7F7-47FF06B85927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48506F3-434C-E655-3A93-B28DBD91C34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48506F3-434C-E655-3A93-B28DBD91C34E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48506F3-434C-E655-3A93-B28DBD91C34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48506F3-434C-E655-3A93-B28DBD91C34E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																							GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
-		Policies = $0
-		$0.TextStylePolicy = $1
-		$1.inheritsSet = null
-		$1.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $2
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
-		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabWidth = 4
-		$3.IndentWidth = 4
-		$3.EolMarker = Unix
-		$3.inheritsSet = Mono
-		$3.inheritsScope = text/plain
-		$3.scope = text/plain
-	EndGlobalSection
-
 EndGlobal

@@ -16,7 +16,12 @@ public class PersonalStatusBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        hpbar.rectTransform.localScale = new Vector2(unit.curHP / unit.maxHP,1);
-        manabar.rectTransform.localScale = new Vector2(unit.curMP / unit.maxMP, 1);
+        if (!unit)
+            unit = transform.parent.GetComponent<Unit>();
+        else
+        {
+            hpbar.rectTransform.localScale = new Vector2(unit.curHP / unit.maxHP, 1);
+            manabar.rectTransform.localScale = new Vector2(unit.curMP / unit.maxMP, 1);
+        }
     }
 }
