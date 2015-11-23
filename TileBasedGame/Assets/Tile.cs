@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
 
@@ -116,4 +117,8 @@ public class Tile : MonoBehaviour {
         unit.tile = this;
         this._unit = unit;
     }
+
+
+    public HashSet<Aura> auras = new HashSet<Aura>();
+
 }
